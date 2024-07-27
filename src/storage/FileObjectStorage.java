@@ -1,12 +1,15 @@
 package storage;
 
-import general.IObjectStorage;
+import exception.CannotSerializeException;
+import exception.NoObjectFoundException;
+import exception.SaveFailedException;
+import general.ObjectStorage;
 
 import java.io.*;
 
-public class FileObjectStorage implements IObjectStorage {
+public class FileObjectStorage extends ObjectStorage {
     private String folderName = "save";
-    private String extension = ".sav";
+    private String extension = ".ser";
 
     public FileObjectStorage() {}
     public FileObjectStorage(String folderName) {
@@ -17,25 +20,47 @@ public class FileObjectStorage implements IObjectStorage {
         this(folderName);
         this.extension = extension;
     }
+
     @Override
-    public void save(long id, Serializable object) {
-        try(
-                FileOutputStream fileOut = new FileOutputStream(folderName + File.separator +
-                        String.valueOf(id) + extension);
-                ObjectOutputStream objOut = new ObjectOutputStream(fileOut)) {
-            //TODO
+    public long[] getStoredIDs() {
+        File saveFolder = new File(folderName);
+        long[] result;
 
+        if(saveFolder.isDirectory()) {
+            File[] storedFiles = saveFolder.listFiles();
+            result = new long[storedFiles.length];
+
+            for(int i = 0; i < storedFiles.length;i++) {
+                String name = storedFiles[i].getName();
+
+                //get the long number from the file name (without .ser extension)
+                result[i] = Long.getLong(name.substring(0, name.indexOf('.')));
+            }
+
+            return result;
         }
-        catch (FileNotFoundException ex) {
+        else return new long[0];
+    }
 
+    @Override
+    public void save(long id, Serializable object) throws SaveFailedException {
+        try( FileOutputStream fileOut = new FileOutputStream(folderName + File.separator +
+                        String.valueOf(id) + extension);) {
+            fileOut.write(serialize(id, object));
         }
-        catch (IOException ex) {
-
+        catch (CannotSerializeException | IOException ex) {
+            throw new SaveFailedException(id, ex);
         }
     }
 
     @Override
-    public Serializable retrieve(long id) {
-        return null;
+    public Object retrieve(long id) throws NoObjectFoundException {
+        try( FileInputStream fileIn = new FileInputStream(folderName + File.separator +
+                        String.valueOf(id) + extension); ObjectInputStream in = new ObjectInputStream(fileIn)) {
+            return in.readObject();
+        }
+        catch (ClassNotFoundException | IOException ex) {
+            throw new NoObjectFoundException(id, ex);
+        }
     }
 }

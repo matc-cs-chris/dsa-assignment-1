@@ -1,8 +1,12 @@
 package general;
 
+import exception.NoObjectFoundException;
+import exception.SaveFailedException;
+
 import java.io.Serializable;
 
 public interface IObjectStorage {
-    void save(long id, Serializable object);
-    Serializable retrieve(long id);
+    long[] getStoredIDs();
+    void save(long id, Serializable object) throws SaveFailedException;
+    Object retrieve(long id) throws NoObjectFoundException;
 }
