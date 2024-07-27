@@ -1,4 +1,6 @@
 package example;
 
-public class Song {
+import java.io.Serializable;
+
+public class Song implements Serializable {
 }
