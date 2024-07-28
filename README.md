@@ -1,7 +1,9 @@
 Assignment for Data Structures and Algorithms - Madison College 
 Author: Instructor Chris Peterson
 
+
 -About This Project-
+
 
 This project includes reusable classes to serialize objects. You don't have to understand serialization completely.
 The intent is rather to provide practice in debugging.
@@ -16,7 +18,9 @@ Your job is twofold:
 2) You must version your project using git with github.com
 You should push revisions to your remote github repository at least once per bug fixed.
 
+
 -What's Serialization?-
+
 
 "Serialization" in programming refers to the process of storing the "state" of an object instance in text or binary. 
 This is often then written to file or sent via the internet.
@@ -46,11 +50,16 @@ You can mark a field as "transient" to tell Java that it should not attempt to s
 An example:
 
 public class EggSalad implements Serializable {
+
   public double weightInKG; //this will be serialized
+
   private transient int numberOfEggs; //this will not
+  
 }
 
+
 -Classes Contained Here-
+
 
 Main - contains the main method of the project, so it's runnable. 
 It's merely a test, and you can modify the main method as needed for your own testing.
@@ -72,7 +81,9 @@ this really isn't necessary, since the deserialized objects are already stored i
 MemoryObjectStorage is just meant as an example of another method of ObjectStorage
 You could have numerous other ways of storing objects, such as in a database, or communication with remote computers via http
 
+
 -Other Notes-
+
 
 My documentation here is not exhaustive, but it's probably more than you'd get in a job.
 
