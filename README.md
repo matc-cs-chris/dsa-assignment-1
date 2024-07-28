@@ -26,7 +26,7 @@ You should push revisions to your remote github repository at least once per bug
 This is often then written to file or sent via the internet.
 
 Remember that the "state" of an object instance is comprised of the data stored in its fields. 
-This is because methods do cannot store any data for an object beyond manipulating fields.
+This is because methods cannot store any data for an object beyond manipulating fields.
 
 This could be in a variety of formats: XML, JSON, pure binary, or a custom representation. 
 Remember that all formats boil down to binary eventually as characters are encoded as numbers which are written in binary.
