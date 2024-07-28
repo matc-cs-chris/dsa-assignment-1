@@ -44,6 +44,7 @@ public class FileObjectStorage extends ObjectStorage {
 
     @Override
     public void save(long id, Serializable object) throws SaveFailedException {
+        //example of try/catch syntax that closes output/input streams automatically
         try( FileOutputStream fileOut = new FileOutputStream(folderName + File.separator +
                         String.valueOf(id) + extension);) {
             fileOut.write(serialize(id, object));
